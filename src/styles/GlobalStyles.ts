@@ -41,11 +41,13 @@ export const GlobalStyles = createGlobalStyle`
           url('${GeneralSansSemiboldTtf}') format('truetype');
   }
 
+
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: GeneralSans, sans-serif;
+    font-size: 62.5%;
   }
 
   body {
