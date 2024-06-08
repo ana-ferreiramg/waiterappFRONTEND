@@ -7,11 +7,11 @@ export const Container = styled.header`
   justify-content: center;
   align-items: center;
 
-  height: 198px;
+  height: 19.8rem;
 `;
 
 export const Content = styled.div`
-  width: min(100%, 1216px);
+  width: min(100%, 121.6rem);
   margin-inline: auto;
 
   display: flex;
