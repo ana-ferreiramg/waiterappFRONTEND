@@ -2,24 +2,27 @@ import closeIcon from '../../assets/images/close-icon.svg';
 import { Order } from '../../types/Order';
 import { formatCurency } from '../../utils/formatCurrency';
 
-import { Overlay, ModalBody, OrderDetails } from './styles';
+import { Overlay, ModalBody, OrderDetails, Actions } from './styles';
 
 interface OrderModalProps {
   visible: boolean;
   order: Order | null;
+  onClose: () => void;
 }
 
-export function OrderModal({ visible, order }: OrderModalProps) {
+export function OrderModal({ visible, order, onClose }: OrderModalProps) {
   if (!visible || !order) {
     return null;
   }
+
+  const total = order.products.reduce((total, { product, quantity }) => total + (product.price * quantity), 0);
 
   return (
     <Overlay>
       <ModalBody>
         <header>
           <strong>Mesa {order.table}</strong>
-          <button type='button'>
+          <button type='button' onClick={onClose}>
             <img src={closeIcon} alt="Icon to close modal" />
           </button>
         </header>
@@ -62,10 +65,30 @@ export function OrderModal({ visible, order }: OrderModalProps) {
                 </div>
               </div>
             ))}
-          </div>
 
+            <div className="total">
+              <span>Total</span>
+              <strong>{formatCurency(total)}</strong>
+            </div>
+          </div>
         </OrderDetails>
 
+        <Actions>
+          <button type='button' className='primary'>
+            <span>
+              {order.status === 'WAITING' && '🧑‍🍳'}
+              {order.status === 'IN_PRODUCTION' && '✅'}
+            </span>
+
+            <strong>
+              {order.status === 'WAITING' && 'Iniciar produção'}
+              {order.status === 'IN_PRODUCTION' && 'Concluir pedido'}
+            </strong>
+          </button>
+          <button type='button' className='secondary'>
+            Cancelar pedido
+          </button>
+        </Actions>
       </ModalBody>
     </Overlay>
   );
